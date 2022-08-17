@@ -16,7 +16,7 @@
           تلاش مجدد
         </div>
       </div>
-      <div v-else class="grid grid-cols-12 w-full">
+      <div v-else class="grid grid-cols-12 gap-8 w-full">
         <div class="col-span-3 flex flex-col gap-2">
           <div>
             <div
@@ -191,11 +191,14 @@
         >
           <div
             v-if="items.posts.length != 0"
-            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center items-center gap-8 mx-2"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center items-center gap-8 mx-2"
           >
-            <div v-for="item in items?.posts" :key="item.id">
-              <ShowPhone :data="item" />
-            </div>
+            <ShowPhone
+              v-for="item in items?.posts"
+              :key="item.id"
+              :data="item"
+              class="col=-span-1"
+            />
           </div>
           <div v-else>
             <span>هیچ آگهی با این شرایط وجود ندارد</span>

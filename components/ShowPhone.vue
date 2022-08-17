@@ -1,18 +1,18 @@
 <template>
   <div
-    class="flex flex-col gap-2 justify-center items-start w-56 h-auto border border-gray-300"
+    class="flex flex-col gap-2 justify-center items-start w-60 h-auto border border-gray-300"
   >
-    <div class="flex flex-col gap-2 w-56 h-56">
+    <div class="flex flex-col gap-2 w-60 h-60">
       <div class="relative">
         <img
           v-if="data.media[0]?.thumbnail_url"
-          class="object-contain absolute -top-px -right-px w-full h-56 border border-t-0 border-gray-300"
+          class="object-contain absolute -top-px -right-px w-full h-60 border border-t-0 border-gray-300"
           :src="data.media[0]?.thumbnail_url"
           alt=""
         />
         <div v-else-if="data.phone.media">
           <img
-            class="object-contain w-full h-56 py-2"
+            class="object-contain w-60 h-60 py-2"
             :src="data.phone.media"
             alt=""
           />
@@ -24,8 +24,8 @@
         </div>
         <div v-else class="">
           <img
-            class="object-contain absolute w-full h-56 -top-px -right-px border border-t-0 border-gray-300"
-            src="@//images/no-photo.png"
+            class="object-contain absolute w-full h-60 -top-px -right-px border border-t-0 border-gray-300"
+            src="@/assets/images/no-photo.png"
             alt=""
           />
         </div>
@@ -45,7 +45,7 @@
           <div class="inline-block mx-1">
             {{ data.price | toPersianNumber | insertRialCamma }}
           </div>
-          <img class="inline" src="@//images/Toman.svg" alt="" />
+          <img class="inline" src="@/assets/images/Toman.svg" alt="" />
         </div>
         <div v-else class="font-semibold self-end">توافقی</div>
         <div

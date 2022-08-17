@@ -35,9 +35,9 @@ export default {
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
-        { src: '~/plugins/insert-rial-camma.js', mode: 'client' },
-        { src: '~plugins/to-persian-number.js', mode: 'client' },
-        { src: '~plugins/format-date.js', mode: 'client' },
+        { src: '~/plugins/insert-rial-camma.js' },
+        { src: '~plugins/to-persian-number.js' },
+        { src: '~plugins/format-date.js' },
         { src: '~plugins/multi-range-slider-vue.js', mode: 'client' },
     ],
 
