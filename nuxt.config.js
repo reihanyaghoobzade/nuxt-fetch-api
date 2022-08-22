@@ -39,6 +39,7 @@ export default {
         { src: '~plugins/to-persian-number.js' },
         { src: '~plugins/format-date.js' },
         { src: '~plugins/multi-range-slider-vue.js', mode: 'client' },
+        { src: '~plugins/vue-infinite-loading.js', mode: 'client' },
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
@@ -59,9 +60,11 @@ export default {
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
     axios: {
         // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-        baseURL: 'https://api.tank.ir/api/v-1.0/market/post/search',
+        baseURL: 'https://api.tank.ir/api/v-1.0/market/post/search/',
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: [],
+
+    loading: false,
 }

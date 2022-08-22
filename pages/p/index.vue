@@ -16,7 +16,7 @@
         تلاش مجدد
       </div>
     </div>
-    <div v-else class="grid grid-cols-12 gap-8 w-full">
+    <div v-else class="grid grid-cols-12 gap-8 w-full relative">
       <div class="col-span-3 relative">
         <div class="flex flex-col gap-2 sticky top-10">
           <div>
@@ -42,10 +42,7 @@
               v-if="$route.query['price-from']"
               class="bg-blue-200 text-blue-600 font-semibold py-1 px-4 rounded-full m-2 inline-block"
             >
-              حداقل قیمت:
-              {{
-                $route.query['price-from'] | toPersianNumber | insertRialCamma
-              }}
+              حداقل قیمت: {{ $route.query['price-from'] }}
               <span
                 class="cursor-pointer pr-2 text-lg"
                 @click="deletePrice('price-from')"
@@ -56,8 +53,7 @@
               v-if="$route.query['price-to']"
               class="bg-blue-200 text-blue-600 font-semibold py-1 px-4 rounded-full m-2 inline-block"
             >
-              حداکثر قیمت:
-              {{ $route.query['price-to'] | toPersianNumber | insertRialCamma }}
+              حداکثر قیمت: {{ $route.query['price-to'] }}
               <span
                 class="cursor-pointer pr-2 text-lg"
                 @click="deletePrice('price-to')"
@@ -184,12 +180,12 @@
               <div class="w-full flex justify-between items-center" dir="rtl">
                 <span>از</span>
                 <span class="w-24 h-8 bg-gray-100 leading-8 text-center">{{
-                  filters.priceFrom | toPersianNumber | insertRialCamma
+                  filters.priceFrom
                 }}</span>
                 <img src="@/assets/images/Toman.svg" alt="" />
                 <span>تا</span>
                 <span class="w-24 h-8 bg-gray-100 leading-8 text-center">{{
-                  filters.priceTo | toPersianNumber | insertRialCamma
+                  filters.priceTo
                 }}</span>
                 <img src="@/assets/images/Toman.svg" alt="" />
               </div>
@@ -238,12 +234,16 @@
 </template>
 
 <script>
-import fetch from 'assets/js/fetchData.js'
+import fetch from '@/assets/js/fetchData.js'
 export default {
-  name: 'IndexPage',
-  async asyncData(context) {
-    try {
-      const filters = {
+  name: 'SearchIndex',
+  data() {
+    return {
+      currentPage: 1,
+      showLoading: true,
+      showRefreshButton: false,
+      query: '',
+      filters: {
         priceFrom: 0,
         priceTo: 30000000,
         hasReport: false,
@@ -256,36 +256,36 @@ export default {
           '6GB': false,
           '8GB': false,
         },
-      }
+      },
+      items: {},
+    }
+  },
+  async fetch() {
+    try {
+      this.showLoading = true
+      const { response, result } = await fetch(this.$axios, this.$route.query)
+      this.items = { ...response }
+      this.query = result
 
-      context.query['has-report'] && (filters.hasReport = true)
-      if (context.query.rams) {
-        context.query.rams.split(',').forEach((value) => {
-          filters.ramValues[value] = true
+      this.$route.query['has-report'] && (this.filters.hasReport = true)
+      if (this.$route.query.rams) {
+        this.$route.query.rams.split(',').forEach((value) => {
+          this.filters.ramValues[value] = true
         })
-        context.query['price-from'] &&
-          (filters.priceFrom = parseInt(context.query['price-from']))
-        context.query['price-to'] &&
-          (filters.priceTo = parseInt(context.query['price-to']))
-      }
-
-      const { response, result } = await fetch(context.$axios, context.query)
-
-      return {
-        items: { ...response },
-        currentPage: 1,
-        showLoading: false,
-        showRefreshButton: false,
-        filters: { ...filters },
-        query: result,
+        this.$route.query['price-from'] &&
+          (this.filters.priceFrom = parseInt(this.$route.query['price-from']))
+        this.$route.query['price-to'] &&
+          (this.filters.priceTo = parseInt(this.$route.query['price-to']))
       }
     } catch (error) {
       console.error(error)
-      return { showRefreshButton: true, showLoading: false }
+      this.showRefreshButton = true
+    } finally {
+      this.showLoading = false
     }
   },
   head: {
-    title: 'جست و جو',
+    title: 'جست و جو | تانک',
   },
   watchQuery: ['has-report', 'rams', 'price-from', 'price-to', 'q'],
   methods: {

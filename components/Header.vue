@@ -35,13 +35,15 @@ export default {
       search: '',
     }
   },
+  created() {
+    this.$route.query.q && (this.search = this.$route.query.q)
+  },
   methods: {
     searchQuery() {
-      // console.log(this.search)
-      const query = { ...this.$route.query }
+      const query = Object.assign({}, this.$route.query)
       this.search === '' ? delete query.q : (query.q = this.search)
-      this.$router.replace({
-        path: '/',
+      this.$router.push({
+        path: '/p',
         query: { ...query },
       })
     },
