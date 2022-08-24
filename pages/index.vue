@@ -241,6 +241,12 @@
 import fetch from 'assets/js/fetchData.js'
 export default {
   name: 'IndexPage',
+  meta: {
+    scrollPos: {
+      x: 0,
+      y: 0,
+    },
+  },
   async asyncData(context) {
     try {
       const filters = {
@@ -289,6 +295,11 @@ export default {
   },
   watchQuery: ['has-report', 'rams', 'price-from', 'price-to', 'q'],
   methods: {
+    async getData() {
+      const { response, result } = await fetch(this.$axios, this.$route.query)
+      this.items = { ...response }
+      this.query = result
+    },
     addRamValues() {
       const query = Object.assign({}, this.$route.query)
 
@@ -308,6 +319,7 @@ export default {
 
       this.$router.push({ query: { ...query } })
       this.showLoading = true
+      this.getData()
     },
     deleteRamValues(event) {
       const value = event.target.ariaLabel
@@ -324,6 +336,7 @@ export default {
 
       this.$router.push({ query: { ...query } })
       this.showLoading = true
+      this.getData()
     },
     hasReported() {
       const query = Object.assign({}, this.$route.query)
@@ -334,6 +347,7 @@ export default {
 
       this.$router.push({ query: { ...query } })
       this.showLoading = true
+      this.getData()
     },
     deleteHasReport() {
       const query = Object.assign({}, this.$route.query)
@@ -342,10 +356,12 @@ export default {
 
       this.$router.push({ query: { ...query } })
       this.showLoading = true
+      this.getData()
     },
     deleteAllFilters() {
       this.$router.push({ query: null })
       this.showLoading = true
+      this.getData()
     },
     setPrice() {
       const query = Object.assign({}, this.$route.query)
@@ -360,6 +376,7 @@ export default {
 
       this.$router.push({ query: { ...query } })
       this.showLoading = true
+      this.getData()
     },
     deletePrice(value) {
       const query = Object.assign({}, this.$route.query)
@@ -369,6 +386,7 @@ export default {
 
       this.$router.push({ query: { ...query } })
       this.showLoading = true
+      this.getData()
     },
     UpdateValues(event) {
       this.filters.priceFrom = event.minValue

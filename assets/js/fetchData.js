@@ -6,7 +6,7 @@ export default async function fetchData(axios, query) {
     result.includes('-') && (result = result.replace('-', '_'))
 
     try {
-        const response = await axios.$get('?limit=12&page=1' + result)
+        const response = await axios.$get('search/?limit=12&page=1' + result)
         return { response, result }
     } catch (error) {
         console.error(error)

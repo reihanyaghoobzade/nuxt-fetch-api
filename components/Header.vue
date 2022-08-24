@@ -29,7 +29,6 @@
 <script>
 export default {
   name: 'HeaderComponent',
-  emits: ['searchBar'],
   data() {
     return {
       search: '',
