@@ -88,12 +88,6 @@
 <script>
 export default {
   name: 'PhonePage',
-   meta: {
-    scrollPos: {
-      x: 0,
-      y: 0,
-    },
-  },
   scrollToTop: true,
   async asyncData(context) {
     const response = await context.$axios.$get(`${context.params.id}`)
@@ -101,5 +95,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

@@ -236,16 +236,12 @@
     </div>
   </div>
 </template>
-
 <script>
 import fetch from 'assets/js/fetchData.js'
 export default {
   name: 'IndexPage',
-  meta: {
-    scrollPos: {
-      x: 0,
-      y: 0,
-    },
+  key(route) {
+    return route.fullPath
   },
   async asyncData(context) {
     try {
@@ -263,7 +259,6 @@ export default {
           '8GB': false,
         },
       }
-
       context.query['has-report'] && (filters.hasReport = true)
       if (context.query.rams) {
         context.query.rams.split(',').forEach((value) => {
@@ -274,9 +269,7 @@ export default {
         context.query['price-to'] &&
           (filters.priceTo = parseInt(context.query['price-to']))
       }
-
       const { response, result } = await fetch(context.$axios, context.query)
-
       return {
         items: { ...response },
         currentPage: 1,
@@ -294,15 +287,12 @@ export default {
     title: 'جست و جو',
   },
   watchQuery: ['has-report', 'rams', 'price-from', 'price-to', 'q'],
+  activated() {
+    this.showLoading = false
+  },
   methods: {
-    async getData() {
-      const { response, result } = await fetch(this.$axios, this.$route.query)
-      this.items = { ...response }
-      this.query = result
-    },
     addRamValues() {
       const query = Object.assign({}, this.$route.query)
-
       if (query.rams) {
         query.rams.includes(`${event.target.value}`)
           ? (query.rams = query.rams
@@ -314,79 +304,58 @@ export default {
       } else {
         query.rams = event.target.value
       }
-
       query.rams === '' && delete query.rams
-
       this.$router.push({ query: { ...query } })
       this.showLoading = true
-      this.getData()
     },
     deleteRamValues(event) {
       const value = event.target.ariaLabel
-
       const query = Object.assign({}, this.$route.query)
-
       query.rams = query.rams
         .replace(`${value}`, '')
         .split(',')
         .filter(String)
         .join(',')
-
       query.rams === '' && delete query.rams
-
       this.$router.push({ query: { ...query } })
       this.showLoading = true
-      this.getData()
     },
     hasReported() {
       const query = Object.assign({}, this.$route.query)
-
       query['has-report']
         ? delete query['has-report']
         : (query['has-report'] = true)
-
       this.$router.push({ query: { ...query } })
       this.showLoading = true
-      this.getData()
     },
     deleteHasReport() {
       const query = Object.assign({}, this.$route.query)
-
       delete query['has-report']
-
       this.$router.push({ query: { ...query } })
       this.showLoading = true
-      this.getData()
     },
     deleteAllFilters() {
       this.$router.push({ query: null })
       this.showLoading = true
-      this.getData()
     },
     setPrice() {
       const query = Object.assign({}, this.$route.query)
-
       this.filters.priceFrom !== 0
         ? (query['price-from'] = this.filters.priceFrom)
         : query['price-from'] && delete query['price-from']
-
       this.filters.priceTo !== 30000000
         ? (query['price-to'] = this.filters.priceTo)
         : delete query['price-to']
-
       this.$router.push({ query: { ...query } })
       this.showLoading = true
-      this.getData()
     },
     deletePrice(value) {
       const query = Object.assign({}, this.$route.query)
       value === 'price-to'
         ? delete query['price-to']
         : delete query['price-from']
-
       this.$router.push({ query: { ...query } })
       this.showLoading = true
-      this.getData()
     },
     UpdateValues(event) {
       this.filters.priceFrom = event.minValue

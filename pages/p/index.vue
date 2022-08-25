@@ -260,6 +260,10 @@ export default {
       items: {},
     }
   },
+  key(route) {
+    return route.fullPath
+  },
+
   async fetch() {
     try {
       this.showLoading = true
@@ -288,6 +292,15 @@ export default {
     title: 'جست و جو | تانک',
   },
   watchQuery: ['has-report', 'rams', 'price-from', 'price-to', 'q'],
+  // activated() {
+  //   this.$fetch()
+  //   console.log('About has been activated')
+  //   this.showLoading = false
+  // },
+  deactivated() {
+    this.showLoading = false
+    console.log('About has been deactivated')
+  },
   methods: {
     addRamValues() {
       const query = Object.assign({}, this.$route.query)

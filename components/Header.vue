@@ -42,7 +42,7 @@ export default {
       const query = Object.assign({}, this.$route.query)
       this.search === '' ? delete query.q : (query.q = this.search)
       this.$router.push({
-        path: '/p',
+        path: '/',
         query: { ...query },
       })
     },
