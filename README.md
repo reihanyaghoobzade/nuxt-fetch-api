@@ -1,4 +1,4 @@
-# tank.ie-search-nuxt
+# tank.ir-search-nuxt
 
 ## Build Setup
 
